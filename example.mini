@@ -1,0 +1,17 @@
+var x: int;
+var y: float;
+x=.;
+if -5 then 
+
+if -5 then 
+	x=3;
+else
+	x=5;
+	x=3;
+
+endif
+else
+endif
+while 3 do
+x=3;
+done
