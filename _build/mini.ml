@@ -38,13 +38,13 @@ open Error
             | Parsing.Parse_error ->
             print_string ("bhbjbjhjhjhjh");
             exit 1 *)
-       let _ =
+       let () =
           try
             let lexbuf = Lexing.from_channel stdin in
             let result = Parser.main Lexer.mini lexbuf in
-            print_endline "VALID"
+            print_endline "VALID "
           with 
-            	| Parser.Error ->  print_string ("INVALID: Syntax error\n");
+            	| Parser.Error ->  print_string ("INVALID : Syntax error\n");
             	exit 0
               | MinilangError (reason) -> print_endline ("INVALID: " ^ reason)
             	|End_of_file ->

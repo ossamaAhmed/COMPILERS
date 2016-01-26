@@ -27,7 +27,7 @@ open Error
 
 (* keyword -> token translation table *)
 let keywords = [
-    "var", VARDCL;"float", FLOATDCL; "int", INTDCL; "read", READ; "print", PRINT; "if", IF;
+    "var", VARDCL;"float", FLOATDCL; "int", INTDCL;"string",STRINGDCL ;"read", READ; "print", PRINT; "if", IF;
     "then", THEN; "else", ELSE; "endif", ENDIF; "while", WHILE; "do", DO; "done", DONE
 ]
 
@@ -43,14 +43,19 @@ let intdigits = ['1'-'9'] (digit)*
 let floatdigits = (((digit|intdigits)* '.' (digit)+) | ((digit|intdigits)+ '.' (digit)*))
 let alpha = ['a'-'z' 'A'-'Z']
 let iden = alpha (alpha | digit | '_')*
+let notnewline = [^ '\n']
+let comments = ('#')+ (notnewline)* '\n'
+let strings = ('"') ['a'-'z' 'A'-'Z' '0'-'9' ',' ' ' '.' '!' '?' ',']* ('"')
 
 rule mini = parse
-	| ':'	   { COLON }
+	  | ':'	   { COLON }
     | '='      { ASSIGN }
     | '+'      { ADD }
     | '-'      { SUB }
     | '*'      { TIMES }
     | '/'      { DIV }
+    | '('      { LPAREN }
+    | ')'      { RPAREN }
     | ';'      { SEMICOLON }
 
     | iden as i {
@@ -70,10 +75,14 @@ rule mini = parse
     | floatdigits as f {
       FLOATLITERAL (float_of_string f)
     }
+    | strings as s {
+      STRINGVAR   (s)
+    }
     | '\n'     { line_num:= !line_num+1; Lexing.new_line lexbuf;  mini lexbuf } (* counting new line characters and increment line num FORGOT *)
     | blank    { mini lexbuf } (* skipping blank characters *)
+    | comments { mini lexbuf }
     | eof      { EOF } (* no more tokens *)
-    | _        { raise (MinilangError ("unknown char "^ "on line "^(string_of_int !line_num)))  }
+    | _        { raise (MinilangError ("unknown char "^ "on line "^(string_of_int !line_num)))}
 
 
 {

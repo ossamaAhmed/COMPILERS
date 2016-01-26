@@ -1,0 +1,6 @@
+#!/bin/bash
+{
+make clean
+make mini
+} &> /dev/null
+./mini.native < $1

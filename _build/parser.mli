@@ -5,9 +5,13 @@ type token =
   | TIMES
   | THEN
   | SUB
+  | STRINGVAR of (string)
+  | STRINGDCL
   | SEMICOLON
+  | RPAREN
   | READ
   | PRINT
+  | LPAREN
   | INTLITERAL of (int)
   | INTDCL
   | IF

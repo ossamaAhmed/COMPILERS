@@ -1,16 +1,16 @@
+#jhfgfeg&$
 var x: int;
-var y: float;
-x=.;
+var y: float;  
+x=2.03;
 if -5 then 
 
 if -5 then 
-	x=3;
+	x=(3+(2));
 else
 	x=5;
 	x=3;
-
 endif
-else
+
 endif
 while 3 do
 x=3;
